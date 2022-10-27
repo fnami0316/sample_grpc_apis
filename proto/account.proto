@@ -1,0 +1,59 @@
+// Protocol Buffersのバージョン指定
+syntax = "proto3";
+
+// パッケージ名TODOあとから決める・・・？
+package xxxx;
+
+// 他の.protoファイルの読み込み(ほかファイルで定義した型を使いたいときとか)
+// protocコマンド実行時に指定する「--proto_path」オプションで指定するパスを基準として、相対パスで記述。
+// import "yyyyy/yyyyy"
+
+// .protoファイルからビルドして生成される「メッセージ定義のソースコード」、「gRPCサービスインターフェース定義のソースコード」の出力先ディレクトリ
+// protocコマンド実行時の「--go_out」オプション、「--go-grpc_out」オプションと関連する
+option go_package = "pb/";
+
+// --- サービス定義
+service AccountService {
+  // アカウント作成
+  rpc CreateAccount (CreateAccountRequest) returns (Account) {}
+
+  // アカウント情報表示
+  rpc GetAccount (GetAccountRequest) returns (Account) {}
+
+  // アカウント情報更新
+  rpc UpdateAccount (UpdateAccountRequest) returns (Account) {}
+
+  // アカウント削除
+  rpc DeleteAccount (DeleteAccountRequest) returns (google.protobuf.Empty) {}
+}
+
+// --- メッセージ定義
+// --- リクエスト & レスポンス
+// [アカウント作成]リクエストメッセージ
+message CreateAccountRequest {
+  Account account = 1;   // 作成する「アカウント」リソース自体(ただしidは設定不要)
+}
+
+// [アカウント情報取得]リクエストメッセージ
+message GetAccountRequest {
+  string id = 1; // 識別子
+}
+
+// [アカウント情報更新]リクエストメッセージ
+message UpdateAccountRequest {
+  Account account = 1; // 更新する「アカウント」リソース自体(渡された「Account」内「id」にマッチするデータストア上の「Account」を更新)
+}
+
+// [アカウント削除]リクエストメッセージ
+message DeleteAccountRequest {
+  // 渡された「id」にマッチするデータストア上の「Account」を削除
+  string id = 1; // 識別子
+}
+
+// リソース自体
+// [アカウントリソース]
+message Account {
+  string id = 1;       // 識別子
+  string email = 2;    // メールアドレス
+  string password = 3; // パスワード
+}
