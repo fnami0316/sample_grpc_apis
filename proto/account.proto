@@ -6,7 +6,7 @@ package xxxx;
 
 // 他の.protoファイルの読み込み(ほかファイルで定義した型を使いたいときとか)
 // protocコマンド実行時に指定する「--proto_path」オプションで指定するパスを基準として、相対パスで記述。
-// import "yyyyy/yyyyy"
+import "google/protobuf/empty.proto"; // google.protobuf.Emptyを使いたいので
 
 // .protoファイルからビルドして生成される「メッセージ定義のソースコード」、「gRPCサービスインターフェース定義のソースコード」の出力先ディレクトリ
 // protocコマンド実行時の「--go_out」オプション、「--go-grpc_out」オプションと関連する
